@@ -121,7 +121,8 @@ impl ByteSet {
 
     /// Adds a value to the set.
     /// Returns whether the value was already present in the set.
-    pub fn insert(&mut self, val: u8) -> bool {
+    /// The value may be passed as a `u8` or as any borrowed form of `u8`.
+    pub fn insert<T: Borrow<u8>>(&mut self, val: T) -> bool {
         let prev = self.0;
         self.0 |= Self::mask(val);
         prev != self.0
