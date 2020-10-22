@@ -10,7 +10,7 @@ use ethnum::u256;
 pub mod iter;
 mod ops;
 
-#[derive(Debug, Default, Copy, Clone, PartialEq, Eq, Hash)]
+#[derive(Debug, Copy, Clone, PartialEq, Eq, Hash)]
 pub struct ByteSet(u256);
 
 impl ByteSet {
@@ -30,7 +30,7 @@ impl ByteSet {
     }
 
     pub fn new() -> Self {
-        Self::default()
+        Self(u256::ZERO)
     }
 
     pub fn iter(&self) -> iter::Iter<'_> {
@@ -121,6 +121,12 @@ impl ByteSet {
                 self.remove(val);
             }
         }
+    }
+}
+
+impl Default for ByteSet {
+    fn default() -> Self {
+        Self::new()
     }
 }
 
