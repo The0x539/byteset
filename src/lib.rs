@@ -29,7 +29,7 @@ impl ByteSet {
         RangeInclusive::new(trailing, 255 - leading)
     }
 
-    pub fn new() -> Self {
+    pub const fn new() -> Self {
         Self(u256::ZERO)
     }
 
@@ -45,7 +45,7 @@ impl ByteSet {
         iter::IntoPairs(iter::PairsImpl::new(self))
     }
 
-    pub fn len(&self) -> u32 {
+    pub const fn len(&self) -> u32 {
         self.0.count_ones()
     }
 
