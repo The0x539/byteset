@@ -34,7 +34,7 @@ impl ByteSet {
     }
 
     pub fn iter(&self) -> iter::Iter<'_> {
-        self.into_iter()
+        iter::Iter(iter::IterImpl::new(self))
     }
 
     pub fn pairs(&self) -> iter::Pairs<'_> {
