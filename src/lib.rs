@@ -24,14 +24,11 @@ impl ByteSet {
     }
 
     fn range(&self) -> RangeInclusive<u8> {
-        if self.is_empty() {
+        match (self.min(), self.max()) {
+            (Some(min), Some(max)) => min..=max,
             // whatever, just an empty range
-            return 1..=0;
+            _ => 1..=0,
         }
-        // max possible value for these functions is 256, which we just checked for
-        let leading = self.0.leading_zeros() as u8;
-        let trailing = self.0.trailing_zeros() as u8;
-        RangeInclusive::new(trailing, 255 - leading)
     }
 
     /// Creates an empty `ByteSet`.
@@ -65,6 +62,26 @@ impl ByteSet {
     /// Returns the number of elements in the set.
     pub const fn len(&self) -> u32 {
         self.0.count_ones()
+    }
+
+    /// If the set is empty, returns `None`.
+    /// Otherwise, returns `Some(n)`, where `n` is the smallest element in the set.
+    pub fn min(&self) -> Option<u8> {
+        match self.0.trailing_zeros() {
+            n @ 0..=255 => Some(n as u8),
+            256 => None,
+            _ => unreachable!(),
+        }
+    }
+
+    /// If the set is empty, returns `None`.
+    /// Otherwise, returns `Some(n)`, where `n` is the largest element in the set.
+    pub fn max(&self) -> Option<u8> {
+        match self.0.leading_zeros() {
+            n @ 0..=255 => Some(255 - n as u8),
+            256 => None,
+            _ => unreachable!(),
+        }
     }
 
     /// Returns `true` if the set contains no elements.
