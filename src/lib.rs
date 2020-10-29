@@ -205,3 +205,37 @@ impl<T: Borrow<u8>> Index<T> for ByteSet {
         }
     }
 }
+
+impl From<&[bool; 256]> for ByteSet {
+    fn from(vals: &[bool; 256]) -> Self {
+        let mut set = Self::new();
+        for i in 0u8..=255 {
+            if vals[i as usize] {
+                set.insert(i);
+            }
+        }
+        set
+    }
+}
+
+impl From<[bool; 256]> for ByteSet {
+    fn from(vals: [bool; 256]) -> Self {
+        Self::from(&vals)
+    }
+}
+
+impl From<&ByteSet> for [bool; 256] {
+    fn from(set: &ByteSet) -> Self {
+        let mut arr = [false; 256];
+        for val in set {
+            arr[val as usize] = true;
+        }
+        arr
+    }
+}
+
+impl From<ByteSet> for [bool; 256] {
+    fn from(set: ByteSet) -> Self {
+        Self::from(&set)
+    }
+}
