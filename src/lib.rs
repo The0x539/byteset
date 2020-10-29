@@ -41,6 +41,11 @@ impl ByteSet {
         Self(u256::MAX)
     }
 
+    /// Creates a `ByteSet` based on a predicate function.
+    pub fn from_predicate<F: FnMut(u8) -> bool>(mut f: F) -> Self {
+        (0u8..=255).filter(|n| f(*n)).collect()
+    }
+
     /// An iterator visiting all elements in increasing order.
     pub fn iter(&self) -> iter::Iter<'_> {
         iter::Iter(iter::IterImpl::new(self))
