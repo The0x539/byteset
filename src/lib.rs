@@ -36,6 +36,11 @@ impl ByteSet {
         Self(u256::ZERO)
     }
 
+    /// Creates a `ByteSet` that contains all 256 possible elements.
+    pub const fn full() -> Self {
+        Self(u256::MAX)
+    }
+
     /// An iterator visiting all elements in increasing order.
     pub fn iter(&self) -> iter::Iter<'_> {
         iter::Iter(iter::IterImpl::new(self))
