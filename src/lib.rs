@@ -10,6 +10,11 @@ use ethnum::u256;
 pub mod iter;
 mod ops;
 
+/// A bitfield-based set of 8-bit values (think `[bool; 256]`),
+/// exposing an interface similar to `HashSet<u8>`.
+///
+/// `ByteSet`'s specialized nature allows it to be implemented as a wrapper around 32 bytes of
+/// stack space, with no heap allocation, resizing, or indirection.
 #[derive(Debug, Copy, Clone, PartialEq, Eq, Hash)]
 pub struct ByteSet(u256);
 
